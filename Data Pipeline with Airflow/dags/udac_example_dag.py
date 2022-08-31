@@ -4,7 +4,7 @@ from airflow import DAG
 from airflow.operators.postgres_operator import PostgresOperator
 from airflow.operators.dummy_operator import DummyOperator
 from airflow.operators import (StageToRedshiftOperator, LoadFactOperator,
-                                LoadDimensionOperator, DataQualityOperator)
+                                LoadDimensionOperator, DataQualityOperator, CreateTableOperator)
 from helpers import SqlQueries
 
 # AWS_KEY = os.environ.get('AWS_KEY')
@@ -27,11 +27,10 @@ dag = DAG('udac_example_dag',
 
 start_operator = DummyOperator(task_id='Begin_execution',  dag=dag)
 
-create_tables = PostgresOperator(
+create_tables = CreateTableOperator(
     task_id="create_tables",
     dag=dag,
-    redshift_conn_id="redshift",
-    sql='create_tables.sql'
+    redshift_conn_id="redshift"
 )
 
 stage_events_to_redshift = StageToRedshiftOperator(
