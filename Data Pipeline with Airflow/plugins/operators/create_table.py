@@ -18,11 +18,12 @@ class CreateTableOperator(BaseOperator):
         
         self.log.info("Creating tables")
         
-        with open('create_tables.sql', 'r') as f:
-            sql_file = f.read()
-        
-        sql_commands = sql_file.split(';')
+        with open("/home/workspace/airflow/create_tables.sql", 'r') as f:
+            content = f.read()
+            
+        sql_commands = content.split(';')
         
         for sql_command in sql_commands:
             redshift.run(sql_command)
+        
         

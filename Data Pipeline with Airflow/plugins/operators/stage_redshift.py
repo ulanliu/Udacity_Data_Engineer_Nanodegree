@@ -5,13 +5,14 @@ from airflow.contrib.hooks.aws_hook import AwsHook
 
 class StageToRedshiftOperator(BaseOperator):
     ui_color = '#358140'
+    
     copy_sql = """
         COPY {}
         FROM '{}'
         ACCESS_KEY_ID '{}'
-        ACCESS_SECRET_ID '{}'
-        IGNOREHEADER {}
-        DELIMITER '{}'
+        SECRET_ACCESS_KEY '{}'
+        json '{}'
+        REGION 'us-west-2'
     """
     
     @apply_defaults
@@ -21,18 +22,14 @@ class StageToRedshiftOperator(BaseOperator):
                  aws_credentials_id="",
                  s3_bucket="",
                  s3_key="",
-                 delimiter=",",
-                 ignore_headers=1,
                  *args, **kwargs):
 
         super(StageToRedshiftOperator, self).__init__(*args, **kwargs)
-        self.redshift_conn_id=redshift_conn_id,
+        self.redshift_conn_id=redshift_conn_id
         self.aws_credentials_id=aws_credentials_id
         self.table=table
         self.s3_bucket=s3_bucket
         self.s3_key=s3_key
-        self.delimiter=delimiter
-        self.ignore_headers=ignore_headers
 
     def execute(self, context):
         self.log.info('StageToRedshiftOperator not implemented yet')
@@ -40,19 +37,21 @@ class StageToRedshiftOperator(BaseOperator):
         credentials = aws_hook.get_credentials()
         redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
         
-        self.log.info("Clearing data from destination Redshift table")
-        redshift.run("DELETE FROM {}".format(self.table))
         
         self.log.info("Copying the data from S3 to stage")
         s3_path= "s3://{}/{}".format(self.s3_bucket, self.s3_key)
         
+        if self.table == "staging_songs":
+            json_format = 'auto'
+        else:
+            json_format = 's3://udacity-dend/log_json_path.json'
+            
         formated_sql = StageToRedshiftOperator.copy_sql.format(
             self.table,
             s3_path,
             credentials.access_key,
             credentials.secret_key,
-            self.ignore_headers,
-            self.delimiter
+            json_format
         )
         
         redshift.run(formated_sql)
