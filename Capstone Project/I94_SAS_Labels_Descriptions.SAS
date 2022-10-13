@@ -328,7 +328,7 @@ proc format library=library ;
    'ROG'	=	'ROGERS ARPT, AR'
    'DOU'	=	'DOUGLAS, AZ           '
    'LUK'	=	'LUKEVILLE, AZ         '
-   'MAP'	=	'MARIPOSA, AZ           '
+   'MAP'	=	'MARIPOSA AZ           '
    'NAC'	=	'NACO, AZ              '
    'NOG'	=	'NOGALES, AZ           '
    'PHO'	=	'PHOENIX, AZ           '
@@ -1044,10 +1044,10 @@ value i94addrl
 
 
 /* I94VISA - Visa codes collapsed into three categories:
-    visa_code
+value visa_code
    1 = Business
    2 = Pleasure
-   3 = Student;
+   3 = Student
 */
 
 
