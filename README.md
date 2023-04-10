@@ -19,10 +19,10 @@ This project will integrate I94 immigration data, world temperature data and US 
 
 ### Step 2: Explore and Assess the Data
   
-please see Capstone Project: [Capstone Project Template.ipynb](https://github.com/ulanliu/Udacity_Data_Engineer_Nanodegree/blob/main/Capstone%20Project/Capstone%20Project%20Template.ipynb)
+Please see Capstone Project: [Capstone Project Template.ipynb](https://github.com/ulanliu/Udacity_Data_Engineer_Nanodegree/blob/main/Capstone%20Project/Capstone%20Project%20Template.ipynb)
 ### Step 3: Define the Data Model
   
-![schema_diagram](Capstone Project/schema_diagram.png)
-* Step 4: Run ETL to Model the Data
+![schema_diagram](image/schema_diagram.png)
+* Step 4: Run ETL with pyspark to Model the Data
   
-[etl.py](https://github.com/ulanliu/Udacity_Data_Engineer_Nanodegree/blob/main/Capstone%20Project/etl.py)
+Please see: [etl.py](https://github.com/ulanliu/Udacity_Data_Engineer_Nanodegree/blob/main/Capstone%20Project/etl.py)
